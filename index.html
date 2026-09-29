@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Tata Boga - Pengolahan Roti (SLB Fase E)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & Lexend for High Legibility -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fffbeed',
+                            100: '#fef3c7',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                        },
+                        deafBlue: '#0284c7',
+                        deafGreen: '#16a34a',
+                        deafPurple: '#9333ea'
+                    },
+                    fontFamily: {
+                        sans: ['Lexend', 'Open Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for high visual accessibility */
+        body {
+            font-size: 19px;
+            background-color: #f8fafc;
+            color: #0f172a;
+            user-select: none;
+        }
+        .btn-touch {
+            min-height: 54px;
+            min-width: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .selected-pair {
+            border: 4px solid #16a34a !important;
+            background-color: #f0fdf4 !important;
+        }
+        .correct-anim {
+            animation: pulse-correct 0.5s ease-in-out;
+        }
+        .wrong-anim {
+            animation: shake-wrong 0.4s ease-in-out;
+        }
+        @keyframes pulse-correct {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake-wrong {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white; font-size: 14pt; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between">
+
+    <!-- Top Header Navigation -->
+    <header class="bg-amber-500 text-white shadow-lg sticky top-0 z-50 no-print">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center flex-wrap gap-2">
+            <div class="flex items-center space-x-3">
+                <span class="bg-white text-amber-700 p-2 rounded-xl text-2xl font-black shadow-sm">
+                    🍞 SLB
+                </span>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-extrabold tracking-wide">TATA BOGA: ROTI</h1>
+                    <p class="text-xs md:text-sm text-amber-100 font-semibold">Fase E • Pengetahuan Bahan & Alat</p>
+                </div>
+            </div>
+            <!-- Quick Navigation Buttons -->
+            <div class="flex items-center gap-2">
+                <button onclick="switchTab('beranda')" class="btn-touch bg-amber-600 hover:bg-amber-700 text-white font-bold px-3 py-2 rounded-xl transition flex items-center gap-1 shadow" title="Beranda">
+                    <i class="fa-solid fa-house text-lg"></i>
+                    <span class="hidden sm:inline text-base">Beranda</span>
+                </button>
+                <button onclick="switchTab('dokumen')" class="btn-touch bg-sky-600 hover:bg-sky-700 text-white font-bold px-3 py-2 rounded-xl transition flex items-center gap-1 shadow" title="Dokumen LKPD">
+                    <i class="fa-solid fa-file-lines text-lg"></i>
+                    <span class="hidden sm:inline text-base">LKPD & Modul</span>
+                </button>
+                <button onclick="switchTab('evaluasi')" class="btn-touch bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl transition flex items-center gap-1 shadow" title="Hasil Belajar">
+                    <i class="fa-solid fa-square-poll-vertical text-lg"></i>
+                    <span class="hidden sm:inline text-base">Nilai</span>
+                </button>
+            </div>
+        </div>
+        <!-- Learning Progress Bar -->
+        <div class="w-full bg-amber-700 h-3">
+            <div id="progress-bar" class="bg-emerald-400 h-3 transition-all duration-500 rounded-r-full" style="width: 10%;"></div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-6xl mx-auto w-full p-4 md:p-6 flex-grow">
+
+        <!-- ================= PAGE 1: BERANDA ================= -->
+        <section id="tab-beranda" class="tab-content space-y-6">
+            <div class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-3xl p-6 md:p-10 text-white shadow-xl text-center relative overflow-hidden">
+                <div class="relative z-10 space-y-4">
+                    <span class="inline-block bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-sm md:text-base font-bold tracking-wider">
+                        🤟 KHUSUS TUNTAS BELAJAR SLB TUNARUNGU
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-black leading-tight">Belajar Pengolahan Roti</h2>
+                    <p class="text-lg md:text-2xl font-medium text-amber-100 max-w-2xl mx-auto">
+                        Mengenal Bahan & Alat Pembuatan Roti dengan Gambar & Permainan Interaktif.
+                    </p>
+                    <div class="pt-4 flex flex-wrap justify-center gap-4">
+                        <button onclick="switchTab('tujuan')" class="btn-touch bg-white text-amber-700 font-extrabold text-xl px-8 py-4 rounded-2xl shadow-lg hover:bg-amber-50 transition transform active:scale-95">
+                            🚀 Mulai Belajar
+                        </button>
+                        <button onclick="switchTab('kuis')" class="btn-touch bg-amber-800 text-white font-extrabold text-xl px-8 py-4 rounded-2xl shadow-lg hover:bg-amber-900 transition transform active:scale-95">
+                            📝 Langsung Kuis
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modul Quick Menu Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button onclick="switchTab('materi-roti')" class="bg-white p-5 rounded-2xl border-2 border-amber-200 hover:border-amber-500 text-center transition card-shadow group">
+                    <div class="text-4xl mb-2 group-hover:scale-110 transition transform">🥐</div>
+                    <div class="font-extrabold text-slate-800 text-lg">1. Mengenal Roti</div>
+                    <div class="text-sm text-slate-500">Penjelasan Singkat</div>
+                </button>
+                <button onclick="switchTab('bahan-roti')" class="bg-white p-5 rounded-2xl border-2 border-emerald-200 hover:border-emerald-500 text-center transition card-shadow group">
+                    <div class="text-4xl mb-2 group-hover:scale-110 transition transform">🌾</div>
+                    <div class="font-extrabold text-slate-800 text-lg">2. Bahan Roti</div>
+                    <div class="text-sm text-slate-500">8 Bahan Utama</div>
+                </button>
+                <button onclick="switchTab('alat-roti')" class="bg-white p-5 rounded-2xl border-2 border-sky-200 hover:border-sky-500 text-center transition card-shadow group">
+                    <div class="text-4xl mb-2 group-hover:scale-110 transition transform">🥣</div>
+                    <div class="font-extrabold text-slate-800 text-lg">3. Alat Roti</div>
+                    <div class="text-sm text-slate-500">10 Alat Kerja</div>
+                </button>
+                <button onclick="switchTab('game-klasifikasi')" class="bg-white p-5 rounded-2xl border-2 border-purple-200 hover:border-purple-500 text-center transition card-shadow group">
+                    <div class="text-4xl mb-2 group-hover:scale-110 transition transform">🎮</div>
+                    <div class="font-extrabold text-slate-800 text-lg">4. Permainan</div>
+                    <div class="text-sm text-slate-500">Uji Pemahaman</div>
+                </button>
+            </div>
+
+            <!-- Visual Guide Box for Deaf Students -->
+            <div class="bg-sky-50 border-2 border-sky-300 rounded-2xl p-5 flex items-start gap-4">
+                <div class="text-4xl">💡</div>
+                <div class="space-y-1">
+                    <h3 class="font-extrabold text-sky-900 text-xl">Petunjuk Visual Belajar:</h3>
+                    <p class="text-sky-800 text-base">
+                        • Klik/Sentuh kartu bergambar untuk melihat penjelasannya.<br>
+                        • Gunakan tombol <span class="bg-sky-200 px-2 py-0.5 rounded font-bold">Berikutnya ▶</span> untuk melanjutkan halaman.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 2: TUJUAN PEMBELAJARAN ================= -->
+        <section id="tab-tujuan" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-slate-200 shadow-sm space-y-6">
+                <div class="border-b-2 border-amber-400 pb-3 flex items-center justify-between">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">🎯 Tujuan Pembelajaran Hari Ini</h2>
+                    <span class="bg-amber-100 text-amber-800 text-sm font-bold px-3 py-1 rounded-full">Fase E SLB</span>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="flex items-center gap-4 bg-amber-50 p-4 rounded-2xl border border-amber-200">
+                        <div class="bg-amber-500 text-white rounded-xl w-12 h-12 flex items-center justify-center font-black text-xl shrink-0">1</div>
+                        <div class="font-bold text-slate-800">Mengetahui apa itu roti dan kegunaannya.</div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-emerald-50 p-4 rounded-2xl border border-emerald-200">
+                        <div class="bg-emerald-500 text-white rounded-xl w-12 h-12 flex items-center justify-center font-black text-xl shrink-0">2</div>
+                        <div class="font-bold text-slate-800">Mengenal 8 nama & fungsi bahan membuat roti.</div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-sky-50 p-4 rounded-2xl border border-sky-200">
+                        <div class="bg-sky-500 text-white rounded-xl w-12 h-12 flex items-center justify-center font-black text-xl shrink-0">3</div>
+                        <div class="font-bold text-slate-800">Mengenal 10 nama & fungsi alat membuat roti.</div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-purple-50 p-4 rounded-2xl border border-purple-200">
+                        <div class="bg-purple-500 text-white rounded-xl w-12 h-12 flex items-center justify-center font-black text-xl shrink-0">4</div>
+                        <div class="font-bold text-slate-800">Membedakan antara BAHAN dan ALAT.</div>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex justify-between">
+                    <button onclick="switchTab('beranda')" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Kembali</button>
+                    <button onclick="switchTab('materi-roti')" class="btn-touch bg-amber-500 hover:bg-amber-600 font-bold px-6 py-3 rounded-xl text-white">Berikutnya ▶</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3: MATERI ROTI ================= -->
+        <section id="tab-materi-roti" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-slate-200 shadow-sm space-y-6">
+                <div class="border-b-2 border-amber-400 pb-3">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">🥐 Apa Itu Roti?</h2>
+                    <p class="text-slate-600 text-base">Penjelasan sederhana tentang produk roti.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-amber-50 p-5 rounded-2xl border border-amber-200 text-center space-y-3">
+                        <div class="text-6xl">🍞</div>
+                        <h3 class="font-black text-xl text-amber-900">1. Pengertian</h3>
+                        <p class="text-slate-700 text-base">Roti adalah makanan lezat yang terbuat dari adonan tepung terigu, ragi, gula, dan air yang dipanggang.</p>
+                    </div>
+                    <div class="bg-orange-50 p-5 rounded-2xl border border-orange-200 text-center space-y-3">
+                        <div class="text-6xl">🥪</div>
+                        <h3 class="font-black text-xl text-orange-900">2. Contoh Roti</h3>
+                        <p class="text-slate-700 text-base">Contoh: Roti tawar, roti manis isi cokelat, roti pisang, dan roti sobek.</p>
+                    </div>
+                    <div class="bg-emerald-50 p-5 rounded-2xl border border-emerald-200 text-center space-y-3">
+                        <div class="text-6xl">😋</div>
+                        <h3 class="font-black text-xl text-emerald-900">3. Kegunaan</h3>
+                        <p class="text-slate-700 text-base">Roti dimakan untuk sarapan atau camilan. Roti membuat perut kenyang dan memberi energi.</p>
+                    </div>
+                </div>
+
+                <!-- Simple Video Placeholder / Subtitle Container -->
+                <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+                    <div class="flex items-center gap-2 text-amber-400 font-bold">
+                        <i class="fa-solid fa-circle-play text-xl"></i>
+                        <span>Video Pembelajaran (Berteks / Subtitle)</span>
+                    </div>
+                    <div class="bg-slate-800 rounded-xl p-8 text-center border border-slate-700">
+                        <p class="text-slate-300 mb-3">🎬 [Tautan Video Pembuatan Roti]</p>
+                        <p class="text-xs text-slate-400 bg-slate-900/80 p-3 rounded-lg inline-block">
+                            📌 Catatan Guru: Video dilengkapi teks panduan visual agar ramah peserta didik tunarungu.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('tujuan')" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Kembali</button>
+                    <button onclick="switchTab('bahan-roti')" class="btn-touch bg-amber-500 hover:bg-amber-600 font-bold px-6 py-3 rounded-xl text-white">Lanjut Ke Bahan ▶</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 4: BAHAN ROTI ================= -->
+        <section id="tab-bahan-roti" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-slate-200 shadow-sm space-y-6">
+                <div class="border-b-2 border-emerald-400 pb-3 flex justify-between items-center flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">🌾 Bahan Pembuatan Roti</h2>
+                        <p class="text-slate-600 text-base">Klik kartu untuk melihat nama dan fungsi bahan!</p>
+                    </div>
+                    <span class="bg-emerald-100 text-emerald-800 font-bold px-4 py-1 rounded-full text-sm">8 Bahan</span>
+                </div>
+
+                <!-- 8 Interactive Ingredient Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" id="ingredients-container">
+                    <!-- Javascript populates cards here dynamically for clarity -->
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('materi-roti')" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Kembali</button>
+                    <button onclick="switchTab('alat-roti')" class="btn-touch bg-emerald-600 hover:bg-emerald-700 font-bold px-6 py-3 rounded-xl text-white">Lanjut Ke Alat ▶</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5: ALAT ROTI ================= -->
+        <section id="tab-alat-roti" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-slate-200 shadow-sm space-y-6">
+                <div class="border-b-2 border-sky-400 pb-3 flex justify-between items-center flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">🥣 Alat Pembuatan Roti</h2>
+                        <p class="text-slate-600 text-base">Klik kartu untuk melihat nama dan fungsi alat!</p>
+                    </div>
+                    <span class="bg-sky-100 text-sky-800 font-bold px-4 py-1 rounded-full text-sm">10 Alat</span>
+                </div>
+
+                <!-- 10 Interactive Tool Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4" id="tools-container">
+                    <!-- Javascript populates tool cards here dynamically -->
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('bahan-roti')" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Kembali</button>
+                    <button onclick="switchTab('game-klasifikasi')" class="btn-touch bg-sky-600 hover:bg-sky-700 font-bold px-6 py-3 rounded-xl text-white">Permainan Klasifikasi ▶</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 6: GAME KLASIFIKASI ================= -->
+        <section id="tab-game-klasifikasi" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-purple-200 shadow-sm space-y-6">
+                <div class="border-b-2 border-purple-400 pb-3 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">🎮 Permainan: Bahan atau Alat?</h2>
+                        <p class="text-slate-600 text-base">Lihat gambar, lalu pilih tombol yang benar!</p>
+                    </div>
+                    <div class="bg-purple-100 text-purple-800 font-extrabold px-4 py-2 rounded-2xl text-lg" id="classify-score-display">
+                        Skor: 0
+                    </div>
+                </div>
+
+                <!-- Classification Card View -->
+                <div class="max-w-md mx-auto bg-purple-50 border-2 border-purple-200 rounded-3xl p-6 text-center space-y-6 shadow-md" id="classify-card shadow">
+                    <div class="text-8xl py-4 bg-white rounded-2xl shadow-inner border border-purple-100" id="classify-icon">
+                        🌾
+                    </div>
+                    <h3 class="text-2xl font-black text-slate-800" id="classify-item-name">Tepung Terigu</h3>
+
+                    <!-- Choice Buttons -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="checkClassification('BAHAN')" class="btn-touch bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xl py-4 rounded-2xl shadow transition transform active:scale-95 flex flex-col items-center">
+                            <span>🌾 BAHAN</span>
+                        </button>
+                        <button onclick="checkClassification('ALAT')" class="btn-touch bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-xl py-4 rounded-2xl shadow transition transform active:scale-95 flex flex-col items-center">
+                            <span>🥣 ALAT</span>
+                        </button>
+                    </div>
+
+                    <!-- Visual Feedback Box -->
+                    <div id="classify-feedback" class="hidden p-4 rounded-2xl font-bold text-center text-lg"></div>
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('alat-roti')" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Kembali</button>
+                    <button onclick="switchTab('cocokkan-gambar')" class="btn-touch bg-purple-600 hover:bg-purple-700 font-bold px-6 py-3 rounded-xl text-white">Cocokkan Gambar ▶</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 7: COCOKKAN GAMBAR ================= -->
+        <section id="tab-cocokkan-gambar" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-amber-200 shadow-sm space-y-6">
+                <div class="border-b-2 border-amber-400 pb-3 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">🧩 Permainan: Cocokkan Pasangan</h2>
+                        <p class="text-slate-600 text-base">1. Klik Gambar  ➡️  2. Klik Nama Benda Yang Sesuai!</p>
+                    </div>
+                    <button onclick="resetMatchingGame()" class="btn-touch bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold px-3 py-2 rounded-xl text-sm">
+                        🔄 Ulangi
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Left Column: Image Icons -->
+                    <div class="space-y-3">
+                        <h3 class="font-extrabold text-slate-700 text-lg border-b pb-1">📷 Gambar Benda</h3>
+                        <div class="grid grid-cols-2 gap-3" id="match-left-column">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Name Labels -->
+                    <div class="space-y-3">
+                        <h3 class="font-extrabold text-slate-700 text-lg border-b pb-1">🏷️ Nama Benda</h3>
+                        <div class="grid grid-cols-1 gap-3" id="match-right-column">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="matching-status" class="text-center font-extrabold text-xl text-emerald-600 min-h-[30px]"></div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('game-klasifikasi')" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Kembali</button>
+                    <button onclick="switchTab('game-tebak')" class="btn-touch bg-amber-500 hover:bg-amber-600 font-bold px-6 py-3 rounded-xl text-white">Tebak Gambar ▶</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 8: PERMAINAN TEBAK GAMBAR ================= -->
+        <section id="tab-game-tebak" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-indigo-200 shadow-sm space-y-6">
+                <div class="border-b-2 border-indigo-400 pb-3 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">⭐ Kenali Alat & Bahan</h2>
+                        <p class="text-slate-600 text-base">Pilih nama benda yang tepat untuk gambar di bawah ini.</p>
+                    </div>
+                </div>
+
+                <div class="max-w-md mx-auto bg-indigo-50 border-2 border-indigo-200 rounded-3xl p-6 text-center space-y-6 shadow-md">
+                    <div class="text-8xl py-4 bg-white rounded-2xl shadow-inner border border-indigo-100" id="tebak-icon">
+                        ♨️
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3" id="tebak-options">
+                        <!-- Populated via JS -->
+                    </div>
+
+                    <div id="tebak-feedback" class="hidden p-3 rounded-xl font-bold text-lg"></div>
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('cocokkan-gambar')" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Kembali</button>
+                    <button onclick="switchTab('kuis')" class="btn-touch bg-indigo-600 hover:bg-indigo-700 font-bold px-6 py-3 rounded-xl text-white">Mulai Kuis 10 Soal ▶</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 9: KUIS INTERAKTIF ================= -->
+        <section id="tab-kuis" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-amber-300 shadow-sm space-y-6">
+                <div class="border-b-2 border-amber-500 pb-3 flex justify-between items-center flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">📝 Kuis Interaktif (10 Soal)</h2>
+                        <p class="text-slate-600 text-base">Pilih satu jawaban A, B, atau C!</p>
+                    </div>
+                    <div class="bg-amber-100 text-amber-900 font-black px-4 py-2 rounded-2xl text-lg">
+                        Soal <span id="quiz-num">1</span> / 10
+                    </div>
+                </div>
+
+                <!-- Quiz Card Container -->
+                <div class="bg-amber-50/60 rounded-3xl p-6 border-2 border-amber-200 space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div id="quiz-question-icon" class="text-6xl bg-white p-4 rounded-2xl border border-amber-200 shadow-sm shrink-0">
+                            ❓
+                        </div>
+                        <h3 id="quiz-question-text" class="text-xl md:text-2xl font-black text-slate-800">
+                            Pertanyaan Kuis Akan Tampil Di Sini
+                        </h3>
+                    </div>
+
+                    <!-- 3 Options -->
+                    <div class="grid grid-cols-1 gap-3" id="quiz-options-container">
+                        <!-- Options generated dynamically -->
+                    </div>
+
+                    <!-- Solution & Explanation Box -->
+                    <div id="quiz-explanation" class="hidden p-4 rounded-2xl font-semibold border text-base"></div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button id="quiz-prev-btn" onclick="prevQuizQuestion()" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Sebelum</button>
+                    <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="btn-touch bg-amber-500 hover:bg-amber-600 font-bold px-6 py-3 rounded-xl text-white">Soal Berikutnya ▶</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 10: REFLEKSI ================= -->
+        <section id="tab-refleksi" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-pink-200 shadow-sm space-y-6">
+                <div class="border-b-2 border-pink-400 pb-3">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">🪞 Refleksi Pembelajaran Saya</h2>
+                    <p class="text-slate-600 text-base">Centang apa yang sudah kamu pahami hari ini!</p>
+                </div>
+
+                <div class="space-y-4">
+                    <label class="flex items-center gap-4 bg-pink-50 p-4 rounded-2xl border border-pink-200 cursor-pointer hover:bg-pink-100 transition">
+                        <input type="checkbox" class="w-7 h-7 text-pink-600 rounded-lg focus:ring-pink-500" checked>
+                        <span class="font-bold text-slate-800 text-lg">Saya sudah mengenal pengertian roti.</span>
+                    </label>
+                    <label class="flex items-center gap-4 bg-pink-50 p-4 rounded-2xl border border-pink-200 cursor-pointer hover:bg-pink-100 transition">
+                        <input type="checkbox" class="w-7 h-7 text-pink-600 rounded-lg focus:ring-pink-500" checked>
+                        <span class="font-bold text-slate-800 text-lg">Saya sudah bisa menyebutkan 8 bahan roti dan fungsinya.</span>
+                    </label>
+                    <label class="flex items-center gap-4 bg-pink-50 p-4 rounded-2xl border border-pink-200 cursor-pointer hover:bg-pink-100 transition">
+                        <input type="checkbox" class="w-7 h-7 text-pink-600 rounded-lg focus:ring-pink-500" checked>
+                        <span class="font-bold text-slate-800 text-lg">Saya sudah bisa menyebutkan 10 alat roti dan fungsinya.</span>
+                    </label>
+                    <label class="flex items-center gap-4 bg-pink-50 p-4 rounded-2xl border border-pink-200 cursor-pointer hover:bg-pink-100 transition">
+                        <input type="checkbox" class="w-7 h-7 text-pink-600 rounded-lg focus:ring-pink-500" checked>
+                        <span class="font-bold text-slate-800 text-lg">Saya bisa membedakan mana BAHAN dan mana ALAT.</span>
+                    </label>
+                </div>
+
+                <!-- Perasaan Belajar (Smiley Feedback) -->
+                <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 text-center space-y-4">
+                    <h3 class="font-extrabold text-slate-800 text-xl">Bagaimana perasaanmu belajar hari ini?</h3>
+                    <div class="flex justify-center gap-6">
+                        <button onclick="setEmotion('Sangat Suka')" class="btn-touch flex flex-col items-center bg-white p-4 rounded-2xl border-2 hover:border-amber-500 shadow-sm group">
+                            <span class="text-5xl group-hover:scale-125 transition">😊</span>
+                            <span class="text-sm font-bold text-slate-700 mt-2">Sangat Suka</span>
+                        </button>
+                        <button onclick="setEmotion('Suka')" class="btn-touch flex flex-col items-center bg-white p-4 rounded-2xl border-2 hover:border-amber-500 shadow-sm group">
+                            <span class="text-5xl group-hover:scale-125 transition">🙂</span>
+                            <span class="text-sm font-bold text-slate-700 mt-2">Suka</span>
+                        </button>
+                        <button onclick="setEmotion('Perlu Belajar Lagi')" class="btn-touch flex flex-col items-center bg-white p-4 rounded-2xl border-2 hover:border-amber-500 shadow-sm group">
+                            <span class="text-5xl group-hover:scale-125 transition">😐</span>
+                            <span class="text-sm font-bold text-slate-700 mt-2">Perlu Belajar</span>
+                        </button>
+                    </div>
+                    <div id="emotion-selected-text" class="font-extrabold text-amber-700 text-lg"></div>
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('kuis')" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Kembali Ke Kuis</button>
+                    <button onclick="switchTab('evaluasi')" class="btn-touch bg-emerald-600 hover:bg-emerald-700 font-bold px-6 py-3 rounded-xl text-white">Lihat Hasil & Nilai ▶</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 11: HASIL BELAJAR & EVALUASI GURU ================= -->
+        <section id="tab-evaluasi" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-emerald-300 shadow-sm space-y-6">
+                <div class="border-b-2 border-emerald-500 pb-3 flex justify-between items-center flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">📊 Laporan Hasil Belajar Peserta Didik</h2>
+                        <p class="text-slate-600 text-base">Rangkuman Nilai & Evaluasi Pembelajaran SLB Fase E</p>
+                    </div>
+                    <button onclick="window.print()" class="btn-touch bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl no-print">
+                        🛈 Cetak Hasil (PDF)
+                    </button>
+                </div>
+
+                <!-- Printable Report Form -->
+                <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Nama Peserta Didik:</label>
+                            <input type="text" id="student-name-input" value="Peserta Didik SLB" onchange="updateReport()" class="w-full border-2 border-slate-300 p-3 rounded-xl font-bold text-lg focus:border-emerald-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Mata Pelajaran:</label>
+                            <input type="text" readonly value="Tata Boga (Pengolahan Roti)" class="w-full bg-slate-200 border-2 border-slate-300 p-3 rounded-xl font-bold text-lg text-slate-700">
+                        </div>
+                    </div>
+
+                    <!-- Score Card Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="bg-emerald-100 border border-emerald-300 p-4 rounded-2xl">
+                            <div class="text-slate-600 font-bold text-sm">SKOR AKHIR</div>
+                            <div class="text-4xl font-black text-emerald-800 mt-1" id="final-score-val">0</div>
+                        </div>
+                        <div class="bg-sky-100 border border-sky-300 p-4 rounded-2xl">
+                            <div class="text-slate-600 font-bold text-sm">BENAR</div>
+                            <div class="text-4xl font-black text-sky-800 mt-1" id="correct-count-val">0</div>
+                        </div>
+                        <div class="bg-rose-100 border border-rose-300 p-4 rounded-2xl">
+                            <div class="text-slate-600 font-bold text-sm">SALAH</div>
+                            <div class="text-4xl font-black text-rose-800 mt-1" id="wrong-count-val">0</div>
+                        </div>
+                        <div class="bg-purple-100 border border-purple-300 p-4 rounded-2xl">
+                            <div class="text-slate-600 font-bold text-sm">PERSEAN TUNTAS</div>
+                            <div class="text-4xl font-black text-purple-800 mt-1" id="percentage-val">0%</div>
+                        </div>
+                    </div>
+
+                    <!-- Teacher Notes Box -->
+                    <div class="space-y-2">
+                        <label class="block font-bold text-slate-700">Catatan & Evaluasi Guru:</label>
+                        <textarea id="teacher-notes" rows="3" class="w-full border-2 border-slate-300 p-3 rounded-xl font-medium text-slate-800 focus:border-emerald-500 outline-none" placeholder="Tuliskan catatan kemajuan dan tindak lanjut pembelajaran untuk peserta didik..."></textarea>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-4 no-print">
+                    <button onclick="switchTab('refleksi')" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Kembali</button>
+                    <button onclick="switchTab('beranda')" class="btn-touch bg-amber-500 hover:bg-amber-600 font-bold px-6 py-3 rounded-xl text-white">Kembali Ke Beranda 🏠</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 12: DOKUMEN LKPD & MODUL ================= -->
+        <section id="tab-dokumen" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-sky-300 shadow-sm space-y-6">
+                <div class="border-b-2 border-sky-500 pb-3">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">📄 Dokumen Pembelajaran & LKPD</h2>
+                    <p class="text-slate-600 text-base">Akses Lembar Kerja Peserta Didik (LKPD) dan Modul Pembelajaran.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Google Docs Link Card -->
+                    <div class="bg-sky-50 border-2 border-sky-200 p-6 rounded-3xl space-y-4 text-center">
+                        <div class="text-6xl">📄</div>
+                        <h3 class="text-xl font-extrabold text-sky-900">LKPD Online (Google Docs)</h3>
+                        <p class="text-slate-600 text-sm">Lembar Kerja Peserta Didik interaktif yang dapat diisi langsung secara online.</p>
+                        <!-- GANTI LINK GOOGLE DOCS DI SINI -->
+                        <a href="https://docs.google.com/document/d/1examplePlaceholderLKPD" target="_blank" rel="noopener noreferrer" class="btn-touch w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl shadow transition">
+                            📄 Buka LKPD Google Docs
+                        </a>
+                    </div>
+
+                    <!-- Word / Drive Module Link Card -->
+                    <div class="bg-blue-50 border-2 border-blue-200 p-6 rounded-3xl space-y-4 text-center">
+                        <div class="text-6xl">📘</div>
+                        <h3 class="text-xl font-extrabold text-blue-900">Modul Ajar (Microsoft Word)</h3>
+                        <p class="text-slate-600 text-sm">Modul cetak dan panduan mengajar guru format Word / PDF.</p>
+                        <!-- GANTI LINK FILE WORD / DRIVE DI SINI -->
+                        <a href="./dokumen/LKPD-Roti.docx" download class="btn-touch w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow transition">
+                            📥 Unduh File Modul Word (.docx)
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Instructions Code Help for Teachers -->
+                <div class="bg-slate-100 p-5 rounded-2xl border border-slate-300 space-y-2 text-sm text-slate-700">
+                    <p class="font-bold text-slate-900">🛠️ Petunjuk Pengubahan Tautan Bagi Guru:</p>
+                    <p>Buka file <code class="bg-white px-2 py-0.5 rounded border border-slate-300 font-mono">index.html</code> dengan Notepad / VS Code, cari baris kode dengan tombol di atas, lalu ganti <code class="bg-white px-2 py-0.5 rounded border border-slate-300 font-mono">href="..."</code> dengan URL Google Docs / OneDrive milik Bapak/Ibu guru.</p>
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('beranda')" class="btn-touch bg-slate-200 hover:bg-slate-300 font-bold px-5 py-3 rounded-xl text-slate-700">◀ Beranda</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-300 p-4 text-center text-sm no-print border-t border-slate-700">
+        <p class="font-bold">Media Pembelajaran Interaktif SLB - Tata Boga Fase E (Tunarungu)</p>
+        <p class="text-xs text-slate-400 mt-1">Dirancang khusus dengan visual dominan, responsif, dan mudah digunakan mandiri.</p>
+    </footer>
+
+    <script>
+        /* ================= DATA STRUCTURES ================= */
+        // Ingredients Data (8 items)
+        const ingredientsData = [
+            { id: 1, name: 'Tepung Terigu', icon: '🌾', category: 'BAHAN', desc: 'Bahan dasar utama pembentuk adonan roti.' },
+            { id: 2, name: 'Ragi Roti', icon: '🧪', category: 'BAHAN', desc: 'Membantu adonan mengembang dan berongga.' },
+            { id: 3, name: 'Gula Pasir', icon: '🍬', category: 'BAHAN', desc: 'Memberikan rasa manis dan memberi makan ragi.' },
+            { id: 4, name: 'Telur Ayam', icon: '🥚', category: 'BAHAN', desc: 'Menambah rasa gurih, warna, dan kelembutan.' },
+            { id: 5, name: 'Margarin', icon: '🧈', category: 'BAHAN', desc: 'Membuat adonan empuk, lembut, dan harum.' },
+            { id: 6, name: 'Susu Cair', icon: '🥛', category: 'BAHAN', desc: 'Menambah rasa gurih manis dan gizi.' },
+            { id: 7, name: 'Air Bersih', icon: '💧', category: 'BAHAN', desc: 'Melarutkan bahan dan membentuk adonan.' },
+            { id: 8, name: 'Garam', icon: '🧂', category: 'BAHAN', desc: 'Memberikan rasa gurih & menyeimbangkan rasa.' }
+        ];
+
+        // Tools Data (10 items)
+        const toolsData = [
+            { id: 1, name: 'Timbangan', icon: '⚖️', category: 'ALAT', desc: 'Menimbang berat bahan secara tepat.' },
+            { id: 2, name: 'Baskom', icon: '🥣', category: 'ALAT', desc: 'Wadah mencampur adonan.' },
+            { id: 3, name: 'Gelas Ukur', icon: '🧪', category: 'ALAT', desc: 'Mengukur volume air atau susu.' },
+            { id: 4, name: 'Sendok', icon: '🥄', category: 'ALAT', desc: 'Mengambil bahan kering atau bumbu.' },
+            { id: 5, name: 'Spatula', icon: '🪓', category: 'ALAT', desc: 'Mengaduk & membersihkan sisa adonan.' },
+            { id: 6, name: 'Mixer', icon: '🔌', category: 'ALAT', desc: 'Mencampur adonan secara otomatis & cepat.' },
+            { id: 7, name: 'Rolling Pin', icon: '🥖', category: 'ALAT', desc: 'Meratakan & memipihkan adonan.' },
+            { id: 8, name: 'Loyang', icon: '🔲', category: 'ALAT', desc: 'Wadah meletakkan adonan saat dipanggang.' },
+            { id: 9, name: 'Oven', icon: '♨️', category: 'ALAT', desc: 'Memanggang adonan menjadi roti matang.' },
+            { id: 10, name: 'Sarung Tangan', icon: '🧤', category: 'ALAT', desc: 'Melindungi tangan dari loyang oven yang panas.' }
+        ];
+
+        // 10 Multiple Choice Questions
+        const quizQuestions = [
+            {
+                id: 1,
+                question: '1. Manakah yang merupakan BAHAN UTAMA pembentuk adonan roti?',
+                icon: '🌾',
+                options: ['A. Tepung terigu', 'B. Loyang', 'C. Oven'],
+                answer: 0,
+                explanation: 'Tepung terigu adalah bahan dasar utama untuk membentuk adonan roti.'
+            },
+            {
+                id: 2,
+                question: '2. Alat mana yang digunakan untuk MEMANGGANG roti?',
+                icon: '♨️',
+                options: ['A. Baskom', 'B. Oven', 'C. Mixer'],
+                answer: 1,
+                explanation: 'Oven adalah alat pemanas untuk memanggang adonan roti hingga matang.'
+            },
+            {
+                id: 3,
+                question: '3. Apa fungsi RAGI dalam adonan roti?',
+                icon: '🧪',
+                options: ['A. Mengembangkan adonan', 'B. Memotong adonan', 'C. Menimbang bahan'],
+                answer: 0,
+                explanation: 'Ragi menghasilkan gas yang membuat adonan roti mengembang naik.'
+            },
+            {
+                id: 4,
+                question: '4. Alat apa yang digunakan untuk MENIMBANG berat bahan secara akurat?',
+                icon: '⚖️',
+                options: ['A. Sendok', 'B. Rolling pin', 'C. Timbangan'],
+                answer: 2,
+                explanation: 'Timbangan digunakan untuk mengukur berat gram bahan roti.'
+            },
+            {
+                id: 5,
+                question: '5. Di bawah ini, manakah yang TERMASUK BAHAN membuat roti?',
+                icon: '🧈',
+                options: ['A. Margarin', 'B. Baskom', 'C. Sarung Tangan'],
+                answer: 0,
+                explanation: 'Margarin adalah bahan pelembut adonan roti.'
+            },
+            {
+                id: 6,
+                question: '6. Di bawah ini, manakah yang TERMASUK ALAT membuat roti?',
+                icon: '🔌',
+                options: ['A. Susu cair', 'B. Mixer', 'C. Garam'],
+                answer: 1,
+                explanation: 'Mixer adalah alat mesin pengaduk adonan roti.'
+            },
+            {
+                id: 7,
+                question: '7. Gelas ukur digunakan untuk mengukur...',
+                icon: '🧪',
+                options: ['A. Cairan seperti air/susu', 'B. Tepung terigu', 'C. Panas oven'],
+                answer: 0,
+                explanation: 'Gelas ukur khusus dipakai untuk mengukur mililiter (ml) cairan.'
+            },
+            {
+                id: 8,
+                question: '8. Sarung tangan oven berguna untuk...',
+                icon: '🧤',
+                options: ['A. Mengaduk tepung', 'B. Menimbang gula', 'C. Melindungi tangan dari panas'],
+                answer: 2,
+                explanation: 'Sarung tangan tebal melindungi kulit tangan saat mengambil loyang panas dari oven.'
+            },
+            {
+                id: 9,
+                question: '9. Bahan mana yang memberikan RASA MANIS pada roti?',
+                icon: '🍬',
+                options: ['A. Garam', 'B. Gula pasir', 'C. Air'],
+                answer: 1,
+                explanation: 'Gula pasir memberikan rasa manis yang lezat pada roti.'
+            },
+            {
+                id: 10,
+                question: '10. Rolling pin digunakan untuk...',
+                icon: '🥖',
+                options: ['A. Meratakan & memipihkan adonan', 'B. Memanggang adonan', 'C. Mencuci alat'],
+                answer: 0,
+                explanation: 'Rolling pin digulung di atas adonan untuk meratakannya.'
+            }
+        ];
+
+        /* ================= STATE MANAGEMENT ================= */
+        let currentTab = 'beranda';
+        let userQuizAnswers = new Array(quizQuestions.length).fill(null);
+        let currentQuizIndex = 0;
+        let classifyIndex = 0;
+        let classifyScore = 0;
+        let classifyList = [...ingredientsData, ...toolsData].sort(() => Math.random() - 0.5);
+
+        /* ================= INITIALIZATION ================= */
+        window.onload = function() {
+            renderIngredientsCards();
+            renderToolsCards();
+            initClassificationGame();
+            initMatchingGame();
+            initTebakGame();
+            renderQuizQuestion();
+            updateReport();
+        };
+
+        /* ================= TAB NAVIGATION ================= */
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('tab-' + tabId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Update Progress Bar
+            const tabsOrder = ['beranda', 'tujuan', 'materi-roti', 'bahan-roti', 'alat-roti', 'game-klasifikasi', 'cocokkan-gambar', 'game-tebak', 'kuis', 'refleksi', 'evaluasi', 'dokumen'];
+            const idx = tabsOrder.indexOf(tabId);
+            const percent = Math.round(((idx + 1) / tabsOrder.length) * 100);
+            document.getElementById('progress-bar').style.width = percent + '%';
+        }
+
+        /* ================= INGREDIENTS CARDS RENDERER ================= */
+        function renderIngredientsCards() {
+            const container = document.getElementById('ingredients-container');
+            container.innerHTML = ingredientsData.map(item => `
+                <div onclick="showDetailModal('${item.name}', '${item.icon}', '${item.desc}', 'BAHAN')" class="bg-emerald-50 border-2 border-emerald-200 hover:border-emerald-500 rounded-2xl p-4 text-center cursor-pointer transform hover:-translate-y-1 transition shadow-sm group">
+                    <div class="text-6xl mb-2 group-hover:scale-110 transition transform">${item.icon}</div>
+                    <div class="font-extrabold text-slate-800 text-lg">${item.name}</div>
+                    <div class="text-xs font-bold text-emerald-700 bg-emerald-200/60 rounded-full px-2 py-0.5 mt-1 inline-block">BAHAN</div>
+                    <div class="text-sm text-slate-600 mt-2 line-clamp-2">${item.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        /* ================= TOOLS CARDS RENDERER ================= */
+        function renderToolsCards() {
+            const container = document.getElementById('tools-container');
+            container.innerHTML = toolsData.map(item => `
+                <div onclick="showDetailModal('${item.name}', '${item.icon}', '${item.desc}', 'ALAT')" class="bg-sky-50 border-2 border-sky-200 hover:border-sky-500 rounded-2xl p-4 text-center cursor-pointer transform hover:-translate-y-1 transition shadow-sm group">
+                    <div class="text-6xl mb-2 group-hover:scale-110 transition transform">${item.icon}</div>
+                    <div class="font-extrabold text-slate-800 text-lg">${item.name}</div>
+                    <div class="text-xs font-bold text-sky-700 bg-sky-200/60 rounded-full px-2 py-0.5 mt-1 inline-block">ALAT</div>
+                    <div class="text-sm text-slate-600 mt-2 line-clamp-2">${item.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        /* Modal Dialog for Card Detail (No Alert!) */
+        function showDetailModal(title, icon, desc, type) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4';
+            const badgeColor = type === 'BAHAN' ? 'bg-emerald-100 text-emerald-800' : 'bg-sky-100 text-sky-800';
+
+            modal.innerHTML = `
+                <div class="bg-white rounded-3xl p-6 max-w-sm w-full text-center space-y-4 animate-bounce-short shadow-2xl">
+                    <div class="text-8xl py-2">${icon}</div>
+                    <span class="text-xs font-bold px-3 py-1 rounded-full ${badgeColor}">${type}</span>
+                    <h3 class="text-2xl font-black text-slate-800">${title}</h3>
+                    <p class="text-slate-600 text-lg">${desc}</p>
+                    <button onclick="this.closest('.fixed').remove()" class="btn-touch w-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-lg py-3 rounded-2xl shadow">
+                        👍 Paham!
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        /* ================= GAME 1: CLASSIFICATION ================= */
+        function initClassificationGame() {
+            if (classifyIndex >= classifyList.length) {
+                classifyIndex = 0;
+            }
+            const current = classifyList[classifyIndex];
+            document.getElementById('classify-icon').innerText = current.icon;
+            document.getElementById('classify-item-name').innerText = current.name;
+            document.getElementById('classify-feedback').classList.add('hidden');
+        }
+
+        function checkClassification(chosenType) {
+            const current = classifyList[classifyIndex];
+            const feedbackEl = document.getElementById('classify-feedback');
+            feedbackEl.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-rose-100', 'text-rose-800');
+
+            if (chosenType === current.category) {
+                classifyScore += 10;
+                feedbackEl.classList.add('bg-emerald-100', 'text-emerald-800', 'correct-anim');
+                feedbackEl.innerHTML = `🎉 Hebat! <b>${current.name}</b> adalah <b>${current.category}</b>.`;
+            } else {
+                feedbackEl.classList.add('bg-rose-100', 'text-rose-800', 'wrong-anim');
+                feedbackEl.innerHTML = `❌ Coba perhatikan lagi. <b>${current.name}</b> termasuk <b>${current.category}</b>.`;
+            }
+
+            document.getElementById('classify-score-display').innerText = `Skor: ${classifyScore}`;
+
+            setTimeout(() => {
+                classifyIndex++;
+                if (classifyIndex < classifyList.length) {
+                    initClassificationGame();
+                } else {
+                    feedbackEl.innerHTML = `🌟 Permainan Selesai! Skor Akhirmu: ${classifyScore}`;
+                }
+            }, 1500);
+        }
+
+        /* ================= GAME 2: MATCHING PAIRS ================= */
+        let selectedMatchLeft = null;
+        let selectedMatchRight = null;
+        const matchPairs = [
+            { id: 1, name: 'Tepung Terigu', icon: '🌾' },
+            { id: 2, name: 'Oven', icon: '♨️' },
+            { id: 3, name: 'Mixer', icon: '🔌' },
+            { id: 4, name: 'Timbangan', icon: '⚖️' }
+        ];
+
+        function initMatchingGame() {
+            const leftCol = document.getElementById('match-left-column');
+            const rightCol = document.getElementById('match-right-column');
+
+            const shuffledRight = [...matchPairs].sort(() => Math.random() - 0.5);
+
+            leftCol.innerHTML = matchPairs.map(p => `
+                <button onclick="selectMatchItem('left', ${p.id}, this)" class="match-left-btn btn-touch bg-amber-50 hover:bg-amber-100 border-2 border-amber-300 rounded-2xl p-4 text-4xl flex items-center justify-center transition shadow-sm" data-id="${p.id}">
+                    ${p.icon}
+                </button>
+            `).join('');
+
+            rightCol.innerHTML = shuffledRight.map(p => `
+                <button onclick="selectMatchItem('right', ${p.id}, this)" class="match-right-btn btn-touch bg-sky-50 hover:bg-sky-100 border-2 border-sky-300 rounded-2xl p-3 font-extrabold text-slate-800 text-lg flex items-center justify-between transition shadow-sm" data-id="${p.id}">
+                    <span>${p.name}</span>
+                    <span class="text-xl">👉</span>
+                </button>
+            `).join('');
+        }
+
+        function selectMatchItem(side, id, element) {
+            if (side === 'left') {
+                document.querySelectorAll('.match-left-btn').forEach(btn => btn.classList.remove('selected-pair'));
+                element.classList.add('selected-pair');
+                selectedMatchLeft = id;
+            } else {
+                document.querySelectorAll('.match-right-btn').forEach(btn => btn.classList.remove('selected-pair'));
+                element.classList.add('selected-pair');
+                selectedMatchRight = id;
+            }
+
+            if (selectedMatchLeft !== null && selectedMatchRight !== null) {
+                const statusEl = document.getElementById('matching-status');
+                if (selectedMatchLeft === selectedMatchRight) {
+                    statusEl.innerText = '✨ TEPAT SEKALI! Pasangan Cocok!';
+                    statusEl.className = 'text-center font-extrabold text-xl text-emerald-600 correct-anim';
+
+                    // Disable matched items
+                    document.querySelector(`.match-left-btn[data-id="${selectedMatchLeft}"]`).style.opacity = '0.4';
+                    document.querySelector(`.match-right-btn[data-id="${selectedMatchRight}"]`).style.opacity = '0.4';
+                } else {
+                    statusEl.innerText = '❌ Belum Pas, Coba Pasangkan Lagi!';
+                    statusEl.className = 'text-center font-extrabold text-xl text-rose-600 wrong-anim';
+                }
+
+                setTimeout(() => {
+                    document.querySelectorAll('.match-left-btn, .match-right-btn').forEach(btn => btn.classList.remove('selected-pair'));
+                    selectedMatchLeft = null;
+                    selectedMatchRight = null;
+                }, 1000);
+            }
+        }
+
+        function resetMatchingGame() {
+            document.getElementById('matching-status').innerText = '';
+            initMatchingGame();
+        }
+
+        /* ================= GAME 3: TEBAK GAMBAR ================= */
+        let tebakItems = [...ingredientsData, ...toolsData].sort(() => Math.random() - 0.5);
+        let tebakCurrentIdx = 0;
+
+        function initTebakGame() {
+            const current = tebakItems[tebakCurrentIdx];
+            document.getElementById('tebak-icon').innerText = current.icon;
+            document.getElementById('tebak-feedback').classList.add('hidden');
+
+            // Generate 3 choices (1 correct + 2 random incorrect)
+            let wrongOptions = [...ingredientsData, ...toolsData]
+                .filter(i => i.name !== current.name)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 2);
+
+            let options = [current, ...wrongOptions].sort(() => Math.random() - 0.5);
+
+            document.getElementById('tebak-options').innerHTML = options.map(opt => `
+                <button onclick="checkTebakAnswer('${opt.name}', '${current.name}')" class="btn-touch bg-white hover:bg-indigo-100 border-2 border-indigo-200 font-extrabold text-slate-800 text-lg py-3 px-4 rounded-xl shadow-sm transition">
+                    ${opt.name}
+                </button>
+            `).join('');
+        }
+
+        function checkTebakAnswer(selectedName, correctName) {
+            const feedbackEl = document.getElementById('tebak-feedback');
+            feedbackEl.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-rose-100', 'text-rose-800');
+
+            if (selectedName === correctName) {
+                feedbackEl.classList.add('bg-emerald-100', 'text-emerald-800', 'correct-anim');
+                feedbackEl.innerHTML = '🎉 Benar! Jawaban kamu tepat sekali.';
+            } else {
+                feedbackEl.classList.add('bg-rose-100', 'text-rose-800', 'wrong-anim');
+                feedbackEl.innerHTML = `❌ Hampir benar! Gambar ini adalah <b>${correctName}</b>.`;
+            }
+
+            setTimeout(() => {
+                tebakCurrentIdx = (tebakCurrentIdx + 1) % tebakItems.length;
+                initTebakGame();
+            }, 1400);
+        }
+
+        /* ================= 10-QUESTION QUIZ ENGINE ================= */
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-num').innerText = currentQuizIndex + 1;
+            document.getElementById('quiz-question-icon').innerText = q.icon;
+            document.getElementById('quiz-question-text').innerText = q.question;
+
+            const container = document.getElementById('quiz-options-container');
+            const savedAns = userQuizAnswers[currentQuizIndex];
+
+            container.innerHTML = q.options.map((opt, idx) => {
+                let btnStyle = 'bg-white border-amber-200 hover:border-amber-500 text-slate-800';
+                if (savedAns !== null) {
+                    if (idx === q.answer) {
+                        btnStyle = 'bg-emerald-100 border-emerald-500 text-emerald-900 font-bold';
+                    } else if (savedAns === idx) {
+                        btnStyle = 'bg-rose-100 border-rose-500 text-rose-900 font-bold';
+                    }
+                }
+                return `
+                    <button onclick="selectQuizAnswer(${idx})" class="btn-touch text-left p-4 rounded-2xl border-2 font-bold text-lg shadow-sm transition ${btnStyle}">
+                        ${opt}
+                    </button>
+                `;
+            }).join('');
+
+            const expEl = document.getElementById('quiz-explanation');
+            if (savedAns !== null) {
+                expEl.classList.remove('hidden');
+                expEl.className = 'p-4 rounded-2xl font-bold text-base border mt-2 ' +
+                    (savedAns === q.answer ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-rose-50 text-rose-800 border-rose-300');
+                expEl.innerHTML = `<b>Pembahasan:</b> ${q.explanation}`;
+            } else {
+                expEl.classList.add('hidden');
+            }
+
+            // Button label update on last question
+            const nextBtn = document.getElementById('quiz-next-btn');
+            if (currentQuizIndex === quizQuestions.length - 1) {
+                nextBtn.innerText = 'Selesai & Lihat Hasil 📊';
+            } else {
+                nextBtn.innerText = 'Soal Berikutnya ▶';
+            }
+        }
+
+        function selectQuizAnswer(optIdx) {
+            userQuizAnswers[currentQuizIndex] = optIdx;
+            renderQuizQuestion();
+            updateReport();
+        }
+
+        function nextQuizQuestion() {
+            if (currentQuizIndex < quizQuestions.length - 1) {
+                currentQuizIndex++;
+                renderQuizQuestion();
+            } else {
+                switchTab('evaluasi');
+            }
+        }
+
+        function prevQuizQuestion() {
+            if (currentQuizIndex > 0) {
+                currentQuizIndex--;
+                renderQuizQuestion();
+            }
+        }
+
+        /* ================= LEARNING REPORT & EVALUATION ================= */
+        function updateReport() {
+            let correctCount = 0;
+            let wrongCount = 0;
+
+            userQuizAnswers.forEach((ans, idx) => {
+                if (ans !== null) {
+                    if (ans === quizQuestions[idx].answer) {
+                        correctCount++;
+                    } else {
+                        wrongCount++;
+                    }
+                }
+            });
+
+            const score = correctCount * 10;
+            const percentage = Math.round((correctCount / quizQuestions.length) * 100);
+
+            document.getElementById('final-score-val').innerText = score;
+            document.getElementById('correct-count-val').innerText = correctCount;
+            document.getElementById('wrong-count-val').innerText = wrongCount;
+            document.getElementById('percentage-val').innerText = percentage + '%';
+        }
+
+        function setEmotion(emotionText) {
+            document.getElementById('emotion-selected-text').innerText = `Perasaan kamu: ${emotionText} 👍`;
+        }
+    </script>
+</body>
+</html>
